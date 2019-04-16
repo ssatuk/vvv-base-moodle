@@ -1,0 +1,20 @@
+################################################################
+# WordPress stable nginx configuration
+#
+# http://{wp_main_host} - this server configuration is
+# setup to listen on port 80 for any requests coming in to
+# {wp_main_host} and use the {vvv_path_to_site}/htdocs directory
+# to serve them.
+server {
+    listen       80;
+    listen       443 ssl;
+    server_name  ;
+    root         {vvv_path_to_site}/htdocs;
+
+    error_log    {vvv_path_to_site}/log/error.log;
+    access_log   {vvv_path_to_site}/log/access.log;
+
+    set          $upstream {upstream};
+
+    include      /etc/nginx/nginx-wp-common.conf;
+}

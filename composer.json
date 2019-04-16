@@ -1,0 +1,42 @@
+{
+    "name": "jpry/vvv-base",
+    "authors": [
+        {
+            "name": "Jeremy Pry",
+            "email": "JPry@users.noreply.github.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "JPry\\VVVBase\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "JPry\\VVVBase\\": "tests/"
+        }
+    },
+    "require": {
+        "symfony/yaml": "^3.3",
+        "symfony/process": "^3.3",
+        "jpry/array-defaults": "^1.0",
+        "monolog/monolog": "^1.22",
+        "symfony/config": "^3.3"
+    },
+    "config": {
+        "vendor-dir": "provision/vendor"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6.1",
+        "mikey179/vfsStream": "^1",
+        "wp-cli/wp-cli": "^1.1"
+    },
+    "repositories": [
+
+    ],
+    "extra": {
+        "autoload-splitter": {
+            "splitter-location": "provision/vendor/wp-cli/wp-cli/php/WP_CLI/AutoloadSplitter.php"
+        }
+    }
+}

@@ -1,0 +1,6 @@
+vendor/
+htdocs/
+log/
+provision/vvv-nginx.conf
+phpunit.xml
+code-coverage/
