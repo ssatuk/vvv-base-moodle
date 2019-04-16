@@ -86,12 +86,14 @@ class Site implements ConfigurationInterface
                         ->booleanNode('wp')->defaultFalse()->end()
                         ->booleanNode('download_wp')->defaultFalse()->end()
                         ->scalarNode('htdocs')->defaultNull()->end()
+                        ->scalarNode('htdocsbranch')->defaultValue('master')->end()
+                        ->scalarNode('depth')->defaultValue(1)->end()
                         ->arrayNode('skip_plugins')
                             ->defaultValue(array())
                             ->prototype('scalar')
                             ->end()
-                        ->booleanNode('moodle')->defaultTrue()->end()
                         ->end()
+                        ->booleanNode('moodle')->defaultTrue()->end()
 
                         // These are old config values that aren't used anymore.
                         ->scalarNode('wp-content')

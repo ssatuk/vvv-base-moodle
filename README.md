@@ -38,6 +38,7 @@ sites:
             wp_content: https://github.com/jquery/jquery-wp-content.git
             wp: false
             htdocs: https://github.com/salcode/example-project-w-gitignore.git
+            htdocsbranch: master
             moodle: true
 
 
@@ -82,10 +83,11 @@ Option | Notes | Default
 `delete_default_plugins` | Delete the default plugins. Currently "Akismet" and "Hello Dolly" are removed. | `false`
 `delete_default_themes` | Delete the default themes. Currently the following themes are removed with this set:<ul><li>`twentytwelve`</li><li>`twentythirteen`</li><li>`twentyfourteen`</li><li>`twentyfifteen`</li><li>`twentysixteen`</li><li>`twentyseventeen`</li></ul> | `false`
 `wp_content`<br>~`wp-content`~ | Set a git repo to clone as the `htdocs/wp-content` directory. Using this option prevent the following options from having any effect:<ul><li>`plugins`</li><li>`themes`</li><li>`delete_default_plugins`</li><li>`delete_default_themes`</li></ul> | `false`
-`htdocs` | Similar to the `wp_content` setting, use this option to set a Git repo to clone as the root `htdocs/` directory. Using this option prevent the following options from having any effect:<ul><li>`wp_content`</li><li>`plugins`</li><li>`themes`</li><li>`delete_default_plugins`</li><li>`delete_default_themes`</li><li>`wp`</li></ul> | `false`
+`htdocs` | Similar to the `wp_content` setting, use this option to set a Git repo to clone as the root `htdocs/` directory. Using this option prevent the following options from having any effect:<ul><li>`wp_content`</li><li>`plugins`</li><li>`themes`</li><li>`delete_default_plugins`</li><li>`delete_default_themes`</li><li>`wp`</li></ul>. If `moodle` is set to true, `htdocs` MUST be set| `false`
+`htdocsbranch` | Only relvant if `moodle` is true, defiens the branch of the remote repo to clone into the site root. | `master`
 `download_wp` | Whether to download the core WordPress files. | `true`
 `wp` | Whether to do any WordPress setup whatsoever.<br><br>If you're going to be building a non-WordPress local site, or if you have a very custom WordPress setup to install, this will skip the automation around downloading, configuring, and installing WordPress. | `false`
-`moodle` | WhetherInstalls Moodle in the site | `true`
+`moodle` | Installs Moodle in the site from the repo defined in `htdocs` | `true`
 `skip_plugins` | A list of plugins to **skip** installing. The plugins in this list are ones that you have defined in the [Global Settings](#global-settings) that you do not want for a particular site.<br><br>**Note:** Unlike the `plugins` setting, this setting is a list of **only the plugin slug**. As an example, if you have Jetpack in your global plugin list as `- { plugin: jetpack, activate: true }`, in this list you only need `- jetpack`. | Empty array.
 
 ## Global Settings

@@ -83,6 +83,13 @@ class Provisioner
         $this->createBaseDir();
         $this->createNginxConfig();
 
+        if ($this->site['moodle']) {
+            $this->logger->info("Setting up Moodle.\n");
+
+            $this->provisionMoodle();
+            return;
+        }
+
         if (!$this->site['wp']) {
             $this->logger->info("Skipping WordPress setup.\n");
 
@@ -98,6 +105,43 @@ class Provisioner
         }
 
         $this->provisionContent();
+    }
+
+    /**
+     * Provision Moodle into the site
+     *
+     * @return void
+     */
+    public function provisionMoodle()
+    {
+        if (!$this->hasHtdocs()){
+            throw new \Exception("Moodle install requires repository in htdocs config option");
+        }
+
+        $this->cloneHtdocsMoodle();
+    }
+
+    /**
+     * Clone the custom Moodle repo into the htdocs/ directory.
+     */
+    protected function cloneHtdocsMoodle()
+    {
+        // Look for the existence of the .git directory.
+        if (file_exists("{$this->base_dir}/.git") && is_dir("{$this->base_dir}/.git")) {
+            return;
+        }
+
+        // If we already have the htdocs dir, remove it.
+        $this->removeDefaultHtdocs();
+
+        $this->logger->info("Cloning [{$this->site['htdocs']}] into {$this->base_dir}...");
+        echo $this->getCmd(
+            array('git', 'clone', $this->site['htdocs'], $this->base_dir),
+            array(
+                'branch' => $this->site['htdocsbranch'],
+                'depth' => $this->site['depth'],
+            )
+        )->mustRun()->getOutput();
     }
 
     /**
@@ -151,7 +195,10 @@ class Provisioner
         }
 
         $this->base_dir   = "{$this->vm_dir}/htdocs";
-        $this->wp_content = "{$this->base_dir}/wp-content";
+
+        if ($this->site['wp']) {
+            $this->wp_content = "{$this->base_dir}/wp-content";
+        }
     }
 
     /**
