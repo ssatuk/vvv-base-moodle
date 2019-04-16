@@ -1,18 +1,11 @@
-# vvv-base
+# vvv-base-moodle
+Base repository for new VVV2 sites running Moodle
 
-[![circle ci status badge](https://circleci.com/gh/JPry/vvv-base/tree/develop.svg?style=shield&circle-token=2a4b06e9259652a98d26b701ab76636f38d95cc8)](https://circleci.com/gh/JPry/vvv-base/tree/master)
-[![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/JPry/vvv-base.svg)](http://isitmaintained.com/project/JPry/vvv-base "Average time to resolve an issue")
-[![Percentage of issues still open](http://isitmaintained.com/badge/open/JPry/vvv-base.svg)](http://isitmaintained.com/project/JPry/vvv-base "Percentage of issues still open")
+**Note - WIP does not work yet!**
 
-Base repository for new VVV2 sites
-
-Please [report any issues](https://github.com/JPry/vvv-base/issues) you may find.
+Adapted from [vvv-base]9https://github.com/JPry/vvv-base) to deploy Moodle into a [VVV](https://varyingvagrantvagrants.org) site
 
 ## Overview
-
-As of [version 2.0.0](https://varyingvagrantvagrants.org/blog/2017/03/13/varying-vagrant-vagrants-2-0-0.html) of VVV, 
-a `vvv-custom.yml` file can be created to control the configuration of sites. One of the config file [options](https://varyingvagrantvagrants.org/docs/en-US/vvv-config/)
-is the ability to define a repo that can be cloned to provide consistent site configuration.
 
 This project is intended to be a generic base repo for use with VVV2. All customizations should be done in the
 `custom` array for the site in the `vvv-custom.yml` file. Here's an example for one site, showing all available [options](#options):
@@ -43,8 +36,10 @@ sites:
             delete_default_plugins: true
             delete_default_themes: true
             wp_content: https://github.com/jquery/jquery-wp-content.git
-            wp: true
+            wp: false
             htdocs: https://github.com/salcode/example-project-w-gitignore.git
+            moodle: true
+
 
 ```
 
@@ -89,7 +84,8 @@ Option | Notes | Default
 `wp_content`<br>~`wp-content`~ | Set a git repo to clone as the `htdocs/wp-content` directory. Using this option prevent the following options from having any effect:<ul><li>`plugins`</li><li>`themes`</li><li>`delete_default_plugins`</li><li>`delete_default_themes`</li></ul> | `false`
 `htdocs` | Similar to the `wp_content` setting, use this option to set a Git repo to clone as the root `htdocs/` directory. Using this option prevent the following options from having any effect:<ul><li>`wp_content`</li><li>`plugins`</li><li>`themes`</li><li>`delete_default_plugins`</li><li>`delete_default_themes`</li><li>`wp`</li></ul> | `false`
 `download_wp` | Whether to download the core WordPress files. | `true`
-`wp` | Whether to do any WordPress setup whatsoever.<br><br>If you're going to be building a non-WordPress local site, or if you have a very custom WordPress setup to install, this will skip the automation around downloading, configuring, and installing WordPress. | `true` (naturally)
+`wp` | Whether to do any WordPress setup whatsoever.<br><br>If you're going to be building a non-WordPress local site, or if you have a very custom WordPress setup to install, this will skip the automation around downloading, configuring, and installing WordPress. | `false`
+`moodle` | WhetherInstalls Moodle in the site | `true`
 `skip_plugins` | A list of plugins to **skip** installing. The plugins in this list are ones that you have defined in the [Global Settings](#global-settings) that you do not want for a particular site.<br><br>**Note:** Unlike the `plugins` setting, this setting is a list of **only the plugin slug**. As an example, if you have Jetpack in your global plugin list as `- { plugin: jetpack, activate: true }`, in this list you only need `- jetpack`. | Empty array.
 
 ## Global Settings

@@ -83,13 +83,14 @@ class Site implements ConfigurationInterface
                         ->booleanNode('delete_default_plugins')->defaultFalse()->end()
                         ->booleanNode('delete_default_themes')->defaultFalse()->end()
                         ->scalarNode('wp_content')->defaultNull()->end()
-                        ->booleanNode('wp')->defaultTrue()->end()
-                        ->booleanNode('download_wp')->defaultTrue()->end()
+                        ->booleanNode('wp')->defaultFalse()->end()
+                        ->booleanNode('download_wp')->defaultFalse()->end()
                         ->scalarNode('htdocs')->defaultNull()->end()
                         ->arrayNode('skip_plugins')
                             ->defaultValue(array())
                             ->prototype('scalar')
                             ->end()
+                        ->booleanNode('moodle')->defaultTrue()->end()
                         ->end()
 
                         // These are old config values that aren't used anymore.
