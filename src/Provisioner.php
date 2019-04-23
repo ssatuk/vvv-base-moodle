@@ -85,7 +85,6 @@ class Provisioner
 
         if ($this->site['moodle']) {
             $this->logger->info("Setting up Moodle.\n");
-
             $this->provisionMoodle();
             return;
         }
@@ -95,6 +94,7 @@ class Provisioner
 
             return;
         }
+        $this->logger->info("WordPress setup.\n");
 
         $this->downloadWordPress();
         $this->createWpConfig();
@@ -114,8 +114,9 @@ class Provisioner
      */
     public function provisionMoodle()
     {
+        $this->logger->info("Provisioning Moodle\n");
         if (!$this->hasHtdocs()){
-            throw new \Exception("Moodle install requires repository in htdocs config option");
+            throw new \Exception("Moodle install requires repository in htdocs config option.\n");
         }
 
         $this->cloneHtdocsMoodle();
@@ -134,7 +135,7 @@ class Provisioner
         // If we already have the htdocs dir, remove it.
         $this->removeDefaultHtdocs();
 
-        $this->logger->info("Cloning [{$this->site['htdocs']}] into {$this->base_dir}...");
+        $this->logger->info("Cloning moodle repo [{$this->site['htdocs']}] into {$this->base_dir}...");
         echo $this->getCmd(
             array('git', 'clone', $this->site['htdocs'], $this->base_dir),
             array(

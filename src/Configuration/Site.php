@@ -84,6 +84,7 @@ class Site implements ConfigurationInterface
                         ->booleanNode('delete_default_themes')->defaultFalse()->end()
                         ->scalarNode('wp_content')->defaultNull()->end()
                         ->booleanNode('wp')->defaultFalse()->end()
+                        ->booleanNode('moodle')->defaultTrue()->end()
                         ->booleanNode('download_wp')->defaultFalse()->end()
                         ->scalarNode('htdocs')->defaultNull()->end()
                         ->scalarNode('htdocsbranch')->defaultValue('master')->end()
@@ -93,7 +94,7 @@ class Site implements ConfigurationInterface
                             ->prototype('scalar')
                             ->end()
                         ->end()
-                        ->booleanNode('moodle')->defaultTrue()->end()
+
 
                         // These are old config values that aren't used anymore.
                         ->scalarNode('wp-content')
