@@ -153,7 +153,7 @@ class Provisioner
                 'dataroot' => '/srv/moodledata', //TODO
                 'dbname' => 'ssatmoodle', //TODO
                 'dbuser' => 'moodle',
-                'dbpass' => 'moodle ',
+                'dbpass' => 'moodle',
                 'adminpass' => 'P@55word',
                 'adminemail' => 'nobody@nowhere.com',
                 'fullname' => '"SSAT Moodle Dev',
