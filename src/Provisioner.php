@@ -119,7 +119,56 @@ class Provisioner
         }
 
         $this->cloneHtdocsMoodle();
-        $this-> updateMoodleSubModules();
+        $this->updateMoodleSubModules();
+        $this->installMoodle();
+    }
+
+    protected function installMoodle()
+    {
+        /*
+            sudo -u www-data /usr/bin/php admin/cli/install.php
+            --lang=en
+            --wwwroot=http://ssatmoodle.test
+            --dataroot=/srv/moodledata
+            --dbname=ssatmoodle
+            --dbuser=moodle
+            --dbpass=moodle
+            --adminpass=P@55word
+            --adminemail=nobody@nowhere.com
+            --fullname="SSAT Moodle Dev"
+            --shortname="ssatdev"
+            --agree-license
+            --dbtype=mariadb
+            --non-interactive
+        */
+
+        $this->logger->info("Calling Moodle CLI to install site\n");
+
+        $this->getCmdWithWD(
+            $this->base_dir,
+            array('sudo', '-u', 'www-data', '/usr/bin/php', 'admin/cli/install.php'),
+            array(
+                'lang' => 'en',
+                'wwwroot' => 'http://ssatmoodle.test',  //TODO
+                'dataroot' => '/srv/moodledata', //TODO
+                'dbname' => 'ssatmoodle', //TODO
+                'dbuser' => 'moodle',
+                'dbpass' => 'moodle ',
+                'adminpass' => 'P@55word',
+                'adminemail' => 'nobody@nowhere.com',
+                'fullname' => '"SSAT Moodle Dev',
+                'shortname' => 'ssatdev',
+                'agree-license' => null,
+                'dbtype' => 'mariadb',
+                'non-interactive' => null
+
+            ),
+            900
+        )->mustRun()->getOutput();
+
+
+
+
     }
 
     /**
