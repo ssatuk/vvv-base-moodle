@@ -83,10 +83,7 @@ class Provisioner
         $this->createLogs();
         $this->createNginxConfig();
 
-        $this->logger->info("Moodle setting: {$this->site['moodle']}, WP setting: {$this->site['wp']}");
-
         if ($this->site['moodle']) {
-            $this->logger->info("Setting up Moodle.\n");
             $this->provisionMoodle();
             return;
         }
@@ -140,7 +137,8 @@ class Provisioner
         $this->logger->info("Cloning moodle repo [{$this->site['htdocs']}::{$this->site['htdocsbranch']}] into {$this->base_dir}...");
         echo $this->getCmd(
             array('git', 'clone', '--branch', $this->site['htdocsbranch'], '--depth', $this->site['depth'], $this->site['htdocs'], $this->base_dir),
-            array()
+            array(),
+            900
         )->mustRun()->getOutput();
     }
 
@@ -419,9 +417,9 @@ PHP;
      *
      * @return Process
      */
-    protected function getCmd(array $positional, $flags = array())
+    protected function getCmd(array $positional, $flags = array(), $timeout = 60)
     {
-        $this->builder->setTimeout(180);
+        $this->builder->setTimeout($timeout);
         $this->builder->setArguments($positional);
         foreach ($flags as $flag => $value) {
             // False can be used to explicitly bypass a value
