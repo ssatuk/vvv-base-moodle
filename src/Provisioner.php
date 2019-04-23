@@ -421,6 +421,7 @@ PHP;
      */
     protected function getCmd(array $positional, $flags = array())
     {
+        $this->builder->setTimeout(180);
         $this->builder->setArguments($positional);
         foreach ($flags as $flag => $value) {
             // False can be used to explicitly bypass a value
