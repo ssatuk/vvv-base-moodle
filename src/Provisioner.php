@@ -131,7 +131,7 @@ class Provisioner
     {
         $this->logger->info("Updating submodules\n");
 
-        getCmdWithWD(
+        $this->getCmdWithWD(
             $this->base_dir,
             array('git', 'submodule', 'update', '--init', '--recurse'),
             array(),
