@@ -288,6 +288,7 @@ class Provisioner
             $this->db->query("CREATE DATABASE `{$this->site_name}`;");
             $this->logger->info("Granting privileges on DB...");
             $this->db->query("GRANT ALL PRIVILEGES ON `{$this->site_name}`.* TO wp@localhost IDENTIFIED BY 'wp'");
+            $this->db->query("GRANT ALL PRIVILEGES ON `{$this->site_name}`.* TO moodle@localhost IDENTIFIED BY 'moodle'");
             $this->logger->info("DB setup complete.");
         }
     }
