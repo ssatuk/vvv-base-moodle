@@ -137,13 +137,10 @@ class Provisioner
         // If we already have the htdocs dir, remove it.
         $this->removeDefaultHtdocs();
 
-        $this->logger->info("Cloning moodle repo [{$this->site['htdocs']}] into {$this->base_dir}...");
+        $this->logger->info("Cloning moodle repo [{$this->site['htdocs']}::{$this->site['htdocsbranch']}] into {$this->base_dir}...");
         echo $this->getCmd(
-            array('git', 'clone', $this->site['htdocs'], $this->base_dir),
-            array(
-                'branch' => $this->site['htdocsbranch'],
-                'depth' => $this->site['depth'],
-            )
+            array('git', 'clone', '--branch', $this->site['htdocsbranch'], '--depth', $this->site['depth'], $this->site['htdocs'], $this->base_dir),
+            array()
         )->mustRun()->getOutput();
     }
 
