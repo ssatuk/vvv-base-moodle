@@ -133,7 +133,7 @@ class Provisioner
 
         $this->getCmdWithWD(
             $this->base_dir,
-            array('git', 'submodule', 'update', '--init', '--recursive'),
+            array('sudo -EH -u "vagrant" "$@"','git', 'submodule', 'update', '--init', '--recursive'),
             array(),
             900
         )->mustRun()->getOutput();
