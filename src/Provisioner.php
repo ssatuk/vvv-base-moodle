@@ -78,10 +78,13 @@ class Provisioner
      */
     public function provision()
     {
+        $this->logger->info("Entering Provisoner::provision()\n");
         $this->createDB();
         $this->createLogs();
         $this->createBaseDir();
         $this->createNginxConfig();
+
+        $this->logger->info("Moodle setting: {$this->site['moodle']}, WP setting: {$this->site['wp']}");
 
         if ($this->site['moodle']) {
             $this->logger->info("Setting up Moodle.\n");
@@ -168,6 +171,7 @@ class Provisioner
      */
     protected function setupSite()
     {
+        $this->logger->info("Entering Provisoner::setupSite()\n");
         if (!empty($this->config['hosts'])) {
             $hosts     = (array) $this->config['hosts'];
             $main_host = $hosts[0];
