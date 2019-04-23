@@ -119,6 +119,25 @@ class Provisioner
         }
 
         $this->cloneHtdocsMoodle();
+        $this-> updateMoodleSubModules();
+    }
+
+    /**
+     * Update all submodules in moodle repo
+     *
+     * @return void
+     */
+    protected function updateMoodleSubModules()
+    {
+        $this->logger->info("Updating submodules\n");
+
+        getCmdWithWD(
+            $this->base_dir,
+            array('git', 'submodule', 'update', '--init', '--recurse'),
+            array(),
+            900
+        )->mustRun()->getOutput();
+
     }
 
     /**
@@ -134,7 +153,7 @@ class Provisioner
         // If we already have the htdocs dir, remove it.
         $this->removeDefaultHtdocs();
 
-        $this->logger->info("Cloning moodle repo [{$this->site['htdocs']}::{$this->site['htdocsbranch']}] into {$this->base_dir}...");
+        $this->logger->info("Shallow cloning moodle repo [{$this->site['htdocs']}::{$this->site['htdocsbranch']}] into {$this->base_dir}...(this may take some time)\n");
         echo $this->getCmd(
             array('git', 'clone', '--branch', $this->site['htdocsbranch'], '--depth', $this->site['depth'], $this->site['htdocs'], $this->base_dir),
             array(),
@@ -433,6 +452,24 @@ PHP;
         }
 
         return $this->builder->getProcess();
+    }
+
+    /**
+     * Get a Process object to run a command in a specific working directory.
+     *
+     * @param string $workingdir
+     * @param array $positional
+     * @param array $flags
+     * @param integer $timeout
+     * @return Process
+     */
+    protected function getCmdWithWD($workingdir, array $positional, $flags = array(), $timeout = 60)
+    {
+        $this->builder->setWorkingDirectory($workingdir);
+        $process = $this->getCmd($positional, $flags, $timeout);
+        $this->builder->setWorkingDirectory(null);
+        return $process;
+
     }
 
     /**
