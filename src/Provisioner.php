@@ -81,7 +81,6 @@ class Provisioner
         $this->logger->info("Entering Provisoner::provision()\n");
         $this->createDB();
         $this->createLogs();
-        $this->createBaseDir();
         $this->createNginxConfig();
 
         $this->logger->info("Moodle setting: {$this->site['moodle']}, WP setting: {$this->site['wp']}");
@@ -98,7 +97,7 @@ class Provisioner
             return;
         }
         $this->logger->info("WordPress setup.\n");
-
+        $this->createbaseDir();
         $this->downloadWordPress();
         $this->createWpConfig();
         $this->installWordPress();
@@ -255,6 +254,7 @@ class Provisioner
      */
     protected function createBaseDir()
     {
+        //$this->logger->info
         if ($this->hasHtdocs()) {
             $this->cloneHtdocs();
         } elseif (!file_exists($this->base_dir)) {
