@@ -155,6 +155,7 @@ class Provisioner
             )->mustRun()->getOutput();
         } else {
 
+            $dbExists = false;
             $dbExists = $this->db->select_db($this->site_name);
             $tables = false;
             $tables = $dbexists &&  $this->db->query('SHOW TABLES');
