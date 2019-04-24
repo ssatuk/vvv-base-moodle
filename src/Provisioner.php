@@ -127,22 +127,6 @@ class Provisioner
     {
         $configFile =  $this->base_dir . '/config.php';
         if(!file_exists($configFile)){
-            /*
-                sudo -u www-data /usr/bin/php admin/cli/install.php
-                --lang=en
-                --wwwroot=http://ssatmoodle.test
-                --dataroot=/srv/moodledata
-                --dbname=ssatmoodle
-                --dbuser=moodle
-                --dbpass=moodle
-                --adminpass=P@55word
-                --adminemail=nobody@nowhere.com
-                --fullname="SSAT Moodle Dev"
-                --shortname="ssatdev"
-                --agree-license
-                --dbtype=mariadb
-                --non-interactive
-            */
 
             $this->logger->info("Calling Moodle CLI to install site\n");
 
@@ -170,16 +154,17 @@ class Provisioner
                 900
             )->mustRun()->getOutput();
         } else {
+
+            $dbExists = $this->db->select_db($this->site_name);
+            $tables = false;
+            $tables = $dbexists &&  $this->db->query('SHOW TABLES');
+
+            if($dbExists && $tables){
+                $this->logger->info("Moodle config file exists, db exists and has tables, not trying to isntall moodle\n");
+                return;
+            }
+
             $this->logger->info("Moodle config file exists, calling install_database\n");
-            /*
-            --lang=CODE           Installation and default site language. Default is en.
-            --adminuser=USERNAME  Username for the moodle admin account. Default is admin.
-            --adminpass=PASSWORD  Password for the moodle admin account.
-            --adminemail=STRING   Email address for the moodle admin account.
-            --agree-license       Indicates agreement with software license.
-            --fullname=STRING     Name of the site
-            --shortname=STRING    Name of the site
-            */
 
             $this->getCmdWithWD(
                 $this->base_dir,
@@ -194,6 +179,7 @@ class Provisioner
                 ),
                 900
             )->mustRun()->getOutput();
+
         }
 
 
