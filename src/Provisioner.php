@@ -144,20 +144,22 @@ class Provisioner
 
         $this->logger->info("Calling Moodle CLI to install site\n");
 
+        $hostname = $this->$site['main_host'];
+
         $this->getCmdWithWD(
             $this->base_dir,
             array('sudo', '-u', 'www-data', '/usr/bin/php', 'admin/cli/install.php'),
             array(
                 'lang' => 'en',
-                'wwwroot' => 'http://ssatmoodle.test',  //TODO
-                'dataroot' => '/srv/moodledata', //TODO
-                'dbname' => 'ssatmoodle', //TODO
+                'wwwroot' => 'http://' . $hostname,
+                'dataroot' => "/srv/moodledata/{$this->site_name}",
+                'dbname' => $this->site_name,
                 'dbuser' => 'moodle',
                 'dbpass' => 'moodle',
                 'adminpass' => 'P@55word',
                 'adminemail' => 'nobody@nowhere.com',
-                'fullname' => '"SSAT Moodle Dev',
-                'shortname' => 'ssatdev',
+                'fullname' => $this->$site['description'],
+                'shortname' => $this->site_name,
                 'agree-license' => null,
                 'dbtype' => 'mariadb',
                 'non-interactive' => null

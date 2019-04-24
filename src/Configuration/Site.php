@@ -39,6 +39,7 @@ class Site implements ConfigurationInterface
                     ->prototype('scalar')
                     ->end()
                 ->end()
+                ->scalarNode('description')->end()
                 ->arrayNode('custom')
                     ->addDefaultsIfNotSet()
                     ->children()
