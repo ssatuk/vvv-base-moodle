@@ -144,7 +144,7 @@ class Provisioner
 
         $this->logger->info("Calling Moodle CLI to install site\n");
 
-        $hostname = $this->$site['main_host'];
+        $hostname = $this->site['main_host'];
 
         $this->getCmdWithWD(
             $this->base_dir,
@@ -158,7 +158,7 @@ class Provisioner
                 'dbpass' => 'moodle',
                 'adminpass' => 'P@55word',
                 'adminemail' => 'nobody@nowhere.com',
-                'fullname' => $this->$site['description'],
+                'fullname' => $this->site['description'],
                 'shortname' => $this->site_name,
                 'agree-license' => null,
                 'dbtype' => 'mariadb',
