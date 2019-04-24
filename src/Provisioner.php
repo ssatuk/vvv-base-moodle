@@ -125,48 +125,76 @@ class Provisioner
 
     protected function installMoodle()
     {
-        /*
-            sudo -u www-data /usr/bin/php admin/cli/install.php
-            --lang=en
-            --wwwroot=http://ssatmoodle.test
-            --dataroot=/srv/moodledata
-            --dbname=ssatmoodle
-            --dbuser=moodle
-            --dbpass=moodle
-            --adminpass=P@55word
-            --adminemail=nobody@nowhere.com
-            --fullname="SSAT Moodle Dev"
-            --shortname="ssatdev"
-            --agree-license
-            --dbtype=mariadb
-            --non-interactive
-        */
+        $configFile =  $this->base_dir . '/config.php';
+        if(!file_exists($configFile)){
+            /*
+                sudo -u www-data /usr/bin/php admin/cli/install.php
+                --lang=en
+                --wwwroot=http://ssatmoodle.test
+                --dataroot=/srv/moodledata
+                --dbname=ssatmoodle
+                --dbuser=moodle
+                --dbpass=moodle
+                --adminpass=P@55word
+                --adminemail=nobody@nowhere.com
+                --fullname="SSAT Moodle Dev"
+                --shortname="ssatdev"
+                --agree-license
+                --dbtype=mariadb
+                --non-interactive
+            */
 
-        $this->logger->info("Calling Moodle CLI to install site\n");
+            $this->logger->info("Calling Moodle CLI to install site\n");
 
-        $hostname = $this->site['main_host'];
+            $hostname = $this->site['main_host'];
 
-        $this->getCmdWithWD(
-            $this->base_dir,
-            array('sudo', '-u', 'www-data', '/usr/bin/php', 'admin/cli/install.php'),
-            array(
-                'lang' => 'en',
-                'wwwroot' => 'http://' . $hostname,
-                'dataroot' => "/srv/moodledata/{$this->site_name}",
-                'dbname' => $this->site_name,
-                'dbuser' => 'moodle',
-                'dbpass' => 'moodle',
-                'adminpass' => 'P@55word',
-                'adminemail' => 'nobody@nowhere.com',
-                'fullname' => $this->site['description'],
-                'shortname' => $this->site_name,
-                'agree-license' => null,
-                'dbtype' => 'mariadb',
-                'non-interactive' => null
+            $this->getCmdWithWD(
+                $this->base_dir,
+                array('sudo', '-u', 'www-data', '/usr/bin/php', 'admin/cli/install.php'),
+                array(
+                    'lang' => 'en',
+                    'wwwroot' => 'http://' . $hostname,
+                    'dataroot' => "/srv/moodledata/{$this->site_name}",
+                    'dbname' => $this->site_name,
+                    'dbuser' => 'moodle',
+                    'dbpass' => 'moodle',
+                    'adminpass' => 'P@55word',
+                    'adminemail' => 'nobody@nowhere.com',
+                    'fullname' => $this->site['description'],
+                    'shortname' => $this->site_name,
+                    'agree-license' => null,
+                    'dbtype' => 'mariadb',
+                    'non-interactive' => null
 
-            ),
-            900
-        )->mustRun()->getOutput();
+                ),
+                900
+            )->mustRun()->getOutput();
+        } else {
+            $this->logger->info("Moodle config file exists, calling install_database\n");
+            /*
+            --lang=CODE           Installation and default site language. Default is en.
+            --adminuser=USERNAME  Username for the moodle admin account. Default is admin.
+            --adminpass=PASSWORD  Password for the moodle admin account.
+            --adminemail=STRING   Email address for the moodle admin account.
+            --agree-license       Indicates agreement with software license.
+            --fullname=STRING     Name of the site
+            --shortname=STRING    Name of the site
+            */
+
+            $this->getCmdWithWD(
+                $this->base_dir,
+                array('sudo', '-u', 'www-data', '/usr/bin/php', 'admin/cli/install_database.php'),
+                array(
+                    'lang' => 'en',
+                    'adminpass' => 'P@55word',
+                    'adminemail' => 'nobody@nowhere.com',
+                    'fullname' => $this->site['description'],
+                    'shortname' => $this->site_name,
+                    'agree-license' => null,
+                ),
+                900
+            )->mustRun()->getOutput();
+        }
 
 
 
