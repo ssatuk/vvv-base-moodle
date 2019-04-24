@@ -155,12 +155,11 @@ class Provisioner
             )->mustRun()->getOutput();
         } else {
 
-            $dbExists = false;
-            $dbExists = $this->db->select_db($this->site_name);
+            $dbexists = $this->db->select_db($this->site_name);
             $tables = false;
             $tables = $dbexists &&  $this->db->query('SHOW TABLES');
 
-            if($dbExists && $tables){
+            if($dbexists && $tables){
                 $this->logger->info("Moodle config file exists, db exists and has tables, not trying to isntall moodle\n");
                 return;
             }
