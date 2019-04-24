@@ -160,7 +160,14 @@ class Provisioner
             $tables = $dbexists &&  $this->db->query('SHOW TABLES');
 
             if($dbexists && $tables){
-                $this->logger->info("Moodle config file exists, db exists and has tables, not trying to isntall moodle\n");
+                $this->logger->info("Moodle config file exists, db exists and has tables, calling Moodle CLI to upgrade\n");
+                $this->getCmdWithWD(
+                    $this->base_dir,
+                    array('sudo', '-u', 'www-data', '/usr/bin/php', 'admin/cli/upgrade.php'),
+                    array(),
+                    900
+                )->mustRun()->getOutput();
+
                 return;
             }
 

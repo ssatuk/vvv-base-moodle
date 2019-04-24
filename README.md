@@ -1,9 +1,9 @@
 # vvv-base-moodle
 Base repository for new VVV2 sites running Moodle
 
-**Note - WIP does not work yet!**
+Adapted from [vvv-base](https://github.com/JPry/vvv-base) to deploy Moodle into a [VVV](https://varyingvagrantvagrants.org) site
 
-Adapted from [vvv-base]9https://github.com/JPry/vvv-base) to deploy Moodle into a [VVV](https://varyingvagrantvagrants.org) site
+** No support available **
 
 ## Overview
 
@@ -40,6 +40,7 @@ sites:
             htdocs: https://github.com/salcode/example-project-w-gitignore.git
             htdocsbranch: master
             moodle: true
+            depth: 1
 
 
 ```
@@ -124,6 +125,3 @@ Setting | Notes
 `plugins` | This is a list of plugins that should be installed for **all** of your sites. This works exactly the same way as the `plugins` setting for an individual site. Refer to the options table above for exact usage details.
 `themes` | This is a list of themes that should be installed for **all** of your sites. This works exactly the same way as the `themes` setting for an individual site. Refer to the options table above for exact usage details.
 
-## Contributing
-
-Contributions are welcome! Please see our [Contribution guidelines](https://github.com/JPry/vvv-base/blob/develop/.github/CONTRIBUTING.md).
