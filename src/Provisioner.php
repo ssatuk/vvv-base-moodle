@@ -228,7 +228,7 @@ class Provisioner
         $this->logger->info("Shallow cloning moodle repo [{$this->site['htdocs']}::{$this->site['htdocsbranch']}] into {$this->base_dir}...(this may take some time)\n");
         echo $this->getCmd(
             array('git', 'clone', '--branch', $this->site['htdocsbranch'], '--depth', $this->site['depth'], $this->site['htdocs'], $this->base_dir),
-            array(),
+            array('–no-single-branch' => null),
             900
         )->mustRun()->getOutput();
     }
