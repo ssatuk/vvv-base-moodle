@@ -229,7 +229,7 @@ class Provisioner
         echo $this->getCmd(
             //array('git', 'clone', '--branch', $this->site['htdocsbranch'], '--depth', $this->site['depth'], $this->site['htdocs'], $this->base_dir),
             //array('–no-single-branch' => null),
-            array('noroot', 'git', 'clone', $this->site['htdocs'], $this->base_dir),
+            array('git', 'clone', '--branch', $this->site['htdocsbranch'], $this->site['htdocs'], $this->base_dir),
             900
         )->mustRun()->getOutput();
     }
