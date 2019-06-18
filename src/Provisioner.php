@@ -115,7 +115,9 @@ class Provisioner
     {
         $this->logger->info("Provisioning Moodle\n");
         if (!$this->hasHtdocs()){
-            throw new \Exception("Moodle install requires repository in htdocs config option.\n");
+            //throw new \Exception("Moodle install requires repository in htdocs config option.\n");
+            $this->logger->warn("Not cloning moodle - you need to do this manually after this provision finishes\n");
+            return;
         }
 
         $this->cloneHtdocsMoodle();
